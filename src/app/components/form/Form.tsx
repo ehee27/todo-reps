@@ -1,30 +1,22 @@
-import { buttonProps } from "@/types";
-import clsx from "clsx";
-import React from "react";
+"use client";
 
-const Button = ({
-  type,
-  text,
-  onClick,
-  actionButton,
-  bgColor,
-  ...props
-}: buttonProps) => {
+import { formProps } from "@/types";
+import { useRef } from "react";
+
+const Form = ({ children, action, className, onSubmit }: formProps) => {
+  const ref = useRef<HTMLFormElement>(null);
   return (
-    <div>
-      <button
-        className={clsx(
-          actionButton &&
-            "text-white hover:bg-blue-800 focus:ring-4 font-medium founded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none h-[100%] rounded-xl",
-          `${bgColor} hover:${bgColor} font-medium founded-lg text-sm px-5 py2.5 me-2 mb-2 focus:outline-none h-[100%] rounded-lg`
-        )}
-        onClick={onClick}
-        type={type}
-      >
-        {text}
-      </button>
-    </div>
+    <form
+      action={async (formData) => {
+        await action(formData);
+        ref.current?.reset();
+      }}
+      onSubmit={onSubmit}
+      ref={ref}
+    >
+      {children}
+    </form>
   );
 };
 
-export default Button;
+export default Form;

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AddTodo from "./components/todos/AddTodo";
 
 export default function Home() {
   return (
@@ -7,16 +8,16 @@ export default function Home() {
       {/* <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start"> */}
       <main className="flex flex-col justify-center items-center w-screen py-20">
         <span className="text-4xl font-extrabold uppercase">ToDo App</span>
-        <h1 className="text-5xl font-extrabold uppercase mb-5 text-center">
+        <h1 className="text-2xl font-extrabold uppercase mb-5 text-center">
           <span className="lowercase">W/</span>Server Actions
         </h1>
       </main>
       <div className="flex flex-col justify-center items-center">
-        {/* <AddTodo /> */}
+        <AddTodo />
         {/* input ToDo */}
         {/* map todo */}
       </div>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center bg-zinc-800 text-white">
         Footer
       </footer>
     </>
