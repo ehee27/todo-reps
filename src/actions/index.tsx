@@ -16,3 +16,23 @@ export const createTodo = async (formData: FormData) => {
 
   revalidatePath("/");
 };
+
+export const changeTodoStatus = async (formData: FormData) => {
+  const inputId = formData.get("inputId") as string;
+  const todo = await prisma.todo.findUnique({
+    where: {
+      id: inputId,
+    },
+  });
+
+  const updateStatus = !todo?.isCompleted;
+  await prisma.todo.update({
+    where: {
+      id: inputId,
+    },
+    data: {
+      isCompleted: updateStatus,
+    },
+  });
+  revalidatePath("/");
+};

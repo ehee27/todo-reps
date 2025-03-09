@@ -1,7 +1,23 @@
-import Image from "next/image";
 import AddTodo from "./components/todos/AddTodo";
+import { prisma } from "@/utils/prisma";
+import Todo from "./components/todos/Todo";
 
-export default function Home() {
+const getTodos = async () => {
+  const data = await prisma.todo.findMany({
+    select: {
+      title: true,
+      id: true,
+      isCompleted: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return data;
+};
+
+const Home = async () => {
+  const data = await getTodos();
   return (
     // <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
     <>
@@ -16,10 +32,19 @@ export default function Home() {
         <AddTodo />
         {/* input ToDo */}
         {/* map todo */}
+        <div className="flex flex-col gap-4 justify-center items-center mt-10 w-screen">
+          {data.map((todo, id) => (
+            <div key={id}>
+              <Todo todo={todo} />
+            </div>
+          ))}
+        </div>
       </div>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center bg-zinc-800 text-white">
         Footer
       </footer>
     </>
   );
-}
+};
+
+export default Home;
